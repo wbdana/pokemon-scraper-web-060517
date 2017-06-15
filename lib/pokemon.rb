@@ -21,7 +21,6 @@ class Pokemon
     result.id = db.execute(query).flatten[0]
     result.type = db.execute(query).flatten[2]
     result.hp = db.execute(query).flatten[3]
-    # result.hp == nil ? result.hp = 60 : result.hp = hp
     result
   end
 
@@ -33,7 +32,6 @@ class Pokemon
     WHERE id = ?;
     SQL
 
-    #### This seems to work in pry...
     values = [new_hp, self.id]
     db.execute(query, new_hp, self.id)
     self.hp = new_hp
