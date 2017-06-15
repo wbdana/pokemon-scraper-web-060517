@@ -2,7 +2,7 @@ require 'bundler/setup'
 
 Bundler.require
 
-require 'pry'
+require 'pry-byebug'
 
 require_relative "../lib/pokemon"
 require_relative "../lib/scraper"
