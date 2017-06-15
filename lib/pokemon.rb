@@ -6,7 +6,7 @@ class Pokemon
 
   def initialize(name, hp=nil)
     @name = name
-    @hp = hp
+    @hp = 60
   end
 
   def self.save(name, type, db)
@@ -20,17 +20,22 @@ class Pokemon
     result = new db.execute(query).flatten[1]
     result.id = db.execute(query).flatten[0]
     result.type = db.execute(query).flatten[2]
-    result.hp == nil ? result.hp = 60 : result.hp = hp
+    result.hp = db.execute(query).flatten[3]
+    # result.hp == nil ? result.hp = 60 : result.hp = hp
     result
   end
 
   def alter_hp(new_hp, db)
-    binding.pry
-    # query = "UPDATE pokemon SET hp = #{new_hp} WHERE pokemon.id = #{self.id};"
+    # binding.pry
+    query = <<-SQL
+    UPDATE pokemon
+    SET hp = ?
+    WHERE id = ?;
+    SQL
 
     #### This seems to work in pry...
     values = [new_hp, self.id]
-    db.execute("UPDATE pokemon SET hp = ? WHERE id = ?;", values)
+    db.execute(query, new_hp, self.id)
     self.hp = new_hp
     self
   end
